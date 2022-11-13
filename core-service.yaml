@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core
+  namespace: core
+spec:
+  selector:
+    matchLabels:
+      app: core
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: core
+    spec:
+      containers:
+      - name: core
+        image: ramdanariadi/core-service
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 10001
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-service
+  namespace: core
+spec:
+  selector:
+    app: core
+  ports:
+    - protocol: TCP
+      port: 10001
+      targetPort: 10001
